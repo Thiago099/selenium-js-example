@@ -1,2 +1,12 @@
 npm install selenium-webdriver
 npm install chromedriver
+
+
+
+apt-get update
+apt-get install default-jre 
+apt-get -f install
+apt-get install chromium-browser
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+apt install ./google-chrome-stable_current_amd64.deb
+

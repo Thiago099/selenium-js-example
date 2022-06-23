@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  nodejs:
+    image: node:16
+    container_name: nodejs
+    volumes:
+      - ./:/app
+    entrypoint: 'bash'
+    tty: true
+    # expose: [8080]
+    # ports:
+    #   - 8080:4200
