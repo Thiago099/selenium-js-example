@@ -5,7 +5,8 @@ services:
     container_name: nodejs
     volumes:
       - ./:/app
-    entrypoint: ["bash","-c","apt-get update && apt-get install default-jre && apt-get -f install && apt-get install chromium-browser && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && apt install ./google-chrome-stable_current_amd64.deb"]
+    command: ["bash","-c","apt-get -y update && apt-get -y install default-jre && apt-get -y -f install && apt-get install -y chromium-browser && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && apt install -y ./google-chrome-stable_current_amd64.deb"]
+    entrypoint: bash
     tty: true
     # expose: [8080]
     # ports:
