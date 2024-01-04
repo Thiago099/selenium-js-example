@@ -1,38 +1,30 @@
-const {Builder, By, Key, until } = require('selenium-webdriver');
-const chrome = require('selenium-webdriver/chrome');
-const by = require('selenium-webdriver/lib/by');
+const { Builder, By, Key, until } = require('selenium-webdriver');
+const firefox = require('selenium-webdriver/firefox');
 
-require('chromedriver');
+(async function example() {
+  let driver = await new Builder()
+    .forBrowser('firefox')
+    .setFirefoxOptions(
+      new firefox.Options()
+        .headless()
+        .windowSize({ width: 1920, height: 1080 })
+    )
+    .build();
 
-(async function example() 
-{
-    let driver = await new Builder()
-                        .forBrowser('chrome')
-                        .setChromeOptions(
-                            new chrome.Options()
-                                .addArguments('--headless')
-                                .addArguments('--no-sandbox')
-                                .addArguments('--disable-gpu')
-                                .addArguments('--window-size=1920,1080')
-                        ).build();
-    try 
-    {
-        await driver.get('http://www.google.com/ncr');
-        await driver.findElement(By.name('q')).sendKeys('webdriver', Key.RETURN);
-        await driver.findElements(By.xpath('//a[descendant::h3]'))
-        .then(async items =>
-        {
-            for(const item of items)
-            {
-                
-                await item.getText().then(text => console.log(text));
-                await item.getAttribute('href').then(href => console.log(href));
-            }
-        })
-        await driver.wait(until.titleIs('webdriver - Google Search'), 1000);
-    } 
-    finally 
-    {
-        await driver.quit();
+  try {
+    await driver.get('http://www.google.com/ncr');
+    await driver.findElement(By.name('q')).sendKeys('webdriver', Key.RETURN);
+
+    const items = await driver.findElements(By.xpath('//a[descendant::h3]'));
+    for (const item of items) {
+      const text = await item.getText();
+      const href = await item.getAttribute('href');
+      console.log(text);
+      console.log(href);
     }
+
+    await driver.wait(until.titleIs('webdriver - Google Search'), 1000);
+  } finally {
+    await driver.quit();
+  }
 })();
